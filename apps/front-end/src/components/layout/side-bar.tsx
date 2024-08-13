@@ -1,17 +1,23 @@
-import { Menu } from "lucide-react";
+import { LogOut, Menu, MoonIcon, SunDim } from "lucide-react";
 import { Button, buttonVariants } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { navItems } from "@/lib/config/nav-items";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/stores/auth";
+import { useTheme } from "next-themes";
+import { logout } from "@/lib/api/auth";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const SideBar = () => {
 	const { user } = useAuth();
+	const { theme, setTheme } = useTheme();
+	const navigate = useNavigate();
+	const client = useQueryClient();
 	return (
 		<div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-			<header className="sticky top-0 z-30 flex h-14 items-center px-4">
+			<header className="sticky top-0 z-30 flex h-14 items-center px-4 justify-between">
 				<Sheet>
 					<SheetTrigger asChild>
 						<Button
@@ -26,17 +32,17 @@ export const SideBar = () => {
 					</SheetTrigger>
 					<SheetContent title="side menu" side="left" className="sm:max-w-xs">
 						<NavigationMenu.Root>
-							<NavigationMenu.List className="grid gap-6 text-lg font-medium">
+							<NavigationMenu.List className="flex flex-col items-start w-full  gap-6 text-lg font-medium">
 								{navItems.map((item) => {
 									if (item?.role && item?.role !== user.role) return <></>;
 									return (
-										<NavigationMenu.Item key={item.title}>
+										<NavigationMenu.Item key={item.title} className="w-full">
 											<NavigationMenu.Link
 												// asChild
 												asChild
-												className="flex items-center gap-2	"
+												className="flex items-center justify-start gap-2	"
 											>
-												<div>
+												<div className="">
 													<NavLink
 														to={item.href}
 														className={({ isActive }) => {
@@ -44,10 +50,10 @@ export const SideBar = () => {
 																isActive
 																	? buttonVariants({
 																			className:
-																				"text-foreground font-bold text-xl",
+																				"text-background font-bold text-xl",
 																		})
 																	: "",
-																"capitalize flex  w-full justify-end items-center gap-2",
+																"capitalize flex justify-start  w-full items-center gap-2",
 															);
 														}}
 													>
@@ -63,6 +69,32 @@ export const SideBar = () => {
 						</NavigationMenu.Root>
 					</SheetContent>
 				</Sheet>
+				<div className="flex gap-2 items-center">
+					<Button
+						variant={"ghost"}
+						size={"icon"}
+						onClick={() => {
+							setTheme(theme === "dark" ? "light" : "dark");
+						}}
+					>
+						{theme === "dark" ? <SunDim /> : <MoonIcon />}
+					</Button>
+					{user.name}
+					<Button
+						variant="ghost"
+						size={"icon"}
+						onClick={async () =>
+							logout().finally(() => {
+								client.invalidateQueries();
+								navigate("/login", {
+									replace: true,
+								});
+							})
+						}
+					>
+						<LogOut />
+					</Button>
+				</div>
 			</header>
 		</div>
 	);

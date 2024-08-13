@@ -7,11 +7,13 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { LogOut, MoonIcon, SunDim } from "lucide-react";
 import { logout } from "@/lib/api/auth";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function NavBar() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 	const { theme, setTheme } = useTheme();
+	const client = useQueryClient();
 	return (
 		<NavigationMenu.Root>
 			<NavigationMenu.List className="sticky top-0">
@@ -66,6 +68,7 @@ export default function NavBar() {
 								size={"icon"}
 								onClick={async () =>
 									logout().finally(() => {
+										client.invalidateQueries();
 										navigate("/login", {
 											replace: true,
 										});

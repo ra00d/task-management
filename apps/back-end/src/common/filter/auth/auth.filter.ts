@@ -10,7 +10,6 @@ import { Response } from "express";
 export class AuthFilter implements ExceptionFilter {
 	catch(exception: UnauthorizedException, host: ArgumentsHost) {
 		const res = host.switchToHttp().getResponse<Response>();
-		console.log(exception);
 		let response = exception.getResponse();
 		if (typeof response === "string") {
 			response = {
@@ -18,7 +17,7 @@ export class AuthFilter implements ExceptionFilter {
 			};
 		}
 
-		return res.status(403).json({
+		return res.status(exception.getStatus()).json({
 			...response,
 			message: "you are  unauthorized ",
 		});
