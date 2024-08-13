@@ -6,7 +6,8 @@
 	"scripts": {
 		"build": "COREPACK_ENABLE_STRICT=0 turbo build",
 		"dev": "COREPACK_ENABLE_STRICT=0 turbo dev",
-		"lint": "turbo lint"
+		"lint": "turbo lint",
+		"serve": "node ./apps/back-end/dist/main.js"
 	},
 	"keywords": [],
 	"author": "",
