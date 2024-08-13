@@ -1,6 +1,8 @@
 import axios from "axios";
 const apiClient = axios.create({
-	baseURL: process.env.FARM_BASE_URL || "127.0.0.1:3000/api",
+	baseURL:
+		process.env.FARM_BASE_URL ||
+		"https://task-management-wf4j.onrender.com/api",
 	withXSRFToken: true,
 	withCredentials: true,
 	xsrfCookieName: "XSRF-TOKEN",

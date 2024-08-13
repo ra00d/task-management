@@ -13,7 +13,6 @@ import { ErrorPage } from "@/components/ui/error-page";
 import { LoadingPage } from "@/components/ui/loading-page";
 import { deleteUser, getUsers } from "@/lib/api/auth";
 import { TUser } from "@/lib/stores/auth";
-import { ApiError } from "@/typings";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
@@ -78,7 +77,7 @@ export const UsersPage = () => {
 
 	const { data, isLoading, isError, error } = useQuery<
 		TUser[],
-		AxiosError<ApiError>
+		AxiosError<any>
 	>({
 		queryFn: () => getUsers(),
 		queryKey: ["users"],

@@ -6,9 +6,9 @@ export default defineConfig({
 	plugins: ["@farmfe/plugin-react", postcssPlugin()],
 
 	compilation: {
-		// output: {
-		// 	path: "../back-end/public",
-		// },
+		output: {
+			path: "../back-end/public",
+		},
 		resolve: {
 			alias: {
 				"@/": path.join(process.cwd(), "src"),
