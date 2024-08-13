@@ -20,6 +20,7 @@ async function bootstrap() {
 				"http://localhost:5173",
 				"http://localhost:9000",
 				"http://localhost:1911",
+				"https://task-management-wf4j.onrender.com/",
 			],
 			credentials: true,
 		},
