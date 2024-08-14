@@ -4,7 +4,6 @@ import path from "path";
 
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, ".");
-	console.log(env);
 
 	return {
 		plugins: ["@farmfe/plugin-react", postcssPlugin()],

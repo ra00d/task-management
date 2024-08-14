@@ -1,15 +1,15 @@
-import { IsNotEmpty, IsOptional, IsString, Min } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { Project } from "../entities/project.entity";
 
 export class CreateProjectDto {
 	@IsNotEmpty()
-	@IsString()
-	@Min(3)
+	// @IsString()
+	// @Min(3)
 	name: string;
 
 	@IsNotEmpty()
-	@IsString()
-	@Min(3)
+	// @IsString()
+	// @Min(3)
 	description: string;
 
 	@IsOptional()

@@ -16,7 +16,7 @@ export class ProjectsService {
 
   async create(createProjectDto: CreateProjectDto,user :User) {
 	const project=createProjectDto.toProject()
-	project.user=	await this.db.findOneBy(User,{id:user.id})
+	project.user=	await this.db.findOneBy(User,{id:user.role==='ADMIN'?createProjectDto.userId:user?.id})
 	  return await this.db.save(project)
   }
 

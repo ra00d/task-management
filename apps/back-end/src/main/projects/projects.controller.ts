@@ -11,11 +11,14 @@ export class ProjectsController {
 
   @Post()
   create(@Body() createProjectDto: CreateProjectDto,@AuthUser() user:User) {
+
+	
     return this.projectsService.create(createProjectDto,user);
   }
 
   @Get()
   findAll(@AuthUser() user:User) {
+	
     return this.projectsService.findAll(user);
   }
 
