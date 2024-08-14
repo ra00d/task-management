@@ -1,29 +1,34 @@
-import { defineConfig } from "@farmfe/core";
+import { defineConfig, loadEnv } from "@farmfe/core";
 import postcssPlugin from "@farmfe/js-plugin-postcss";
 import path from "path";
 
-export default defineConfig({
-	plugins: ["@farmfe/plugin-react", postcssPlugin()],
-	server: {
-		proxy: {
-			"/api": {
-				target: "http://127.0.0.1:3000/api",
-				changeOrigin: true,
-				pathRewrite: (path: any) => path.replace(/^\/api/, ""),
-				secure: false,
-			},
-		},
-		cors: false,
-	},
+export default defineConfig(({ mode }) => {
+	const env = loadEnv(mode, ".");
+	console.log(env);
 
-	compilation: {
-		output: {
-			path: "../back-end/public",
+	return {
+		plugins: ["@farmfe/plugin-react", postcssPlugin()],
+		server: {
+			proxy: {
+				"/api": {
+					target: env?.FARM_FRONTEND_DOMAIN,
+					changeOrigin: true,
+					pathRewrite: (path: any) => path.replace(/^\/api/, ""),
+					secure: false,
+				},
+			},
+			cors: false,
 		},
-		resolve: {
-			alias: {
-				"@/": path.join(process.cwd(), "src"),
+		envDir: "./",
+		compilation: {
+			output: {
+				path: "../back-end/public",
+			},
+			resolve: {
+				alias: {
+					"@/": path.join(process.cwd(), "src"),
+				},
 			},
 		},
-	},
+	};
 });
