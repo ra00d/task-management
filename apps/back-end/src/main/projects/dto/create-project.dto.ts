@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Min } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, Min } from "class-validator";
 import { Project } from "../entities/project.entity";
 
 export class CreateProjectDto {
@@ -12,8 +12,8 @@ export class CreateProjectDto {
 	@Min(3)
 	description: string;
 
-	@IsNotEmpty()
-	userId: number;
+	@IsOptional()
+	userId?: number;
 	toProject(): Project {
 		return new Project({
 			name: this.name,
